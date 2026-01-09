@@ -7,7 +7,7 @@ actor "Администратор системы" as Administrator
 
 rectangle "Система для приёмки техники" {
 usecase "Получить список предложений" as (GetDealsList)
-usecase "Получить список мест, куда можно сдать технику" as (GetLocationsList)
+usecase "Получить список мест куда можно сдать технику" as (GetLocationsList)
 usecase "Отслеживать статус сданной техники" as (GetDeviceStatus)
 usecase "Вывести полученные от сданной техники деньги на банковскую карту" as (TransferMoneyToCard)
 usecase "Получить по виду техники правила проверки и оценки" as (GetRules)
@@ -20,6 +20,7 @@ usecase "Изменить правила проверки и оценки для
 usecase "Изменить цену приёмки для вида электроники" as (ChangePrice)
 usecase "Добавить точку сдачи товара в систему" as (AddLocation)
 usecase "Удалить точку сдачи товара из системы" as (DeleteLocation)
+usecase "Добавить в систему новый экземпляр сданной техники" as (AddInstance)
 }
 Client--(GetDealsList)
 Client--(GetLocationsList)
@@ -29,6 +30,8 @@ Client--(TransferMoneyToCard)
 Inspector--(GetDealsList)
 Inspector--(GetRules)
 Inspector--(InputAssessment)
+Inspector--(AddInstance)
+Inspector--(GetDeviceStatus)
 
 Administrator--(GetDealsList)
 Administrator--(GetLocationsList)
