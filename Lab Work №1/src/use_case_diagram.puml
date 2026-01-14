@@ -1,0 +1,47 @@
+@startuml
+left to right direction
+
+actor "Инспектор техники" as Inspector
+actor "Клиент" as Client
+actor "Администратор системы" as Administrator
+
+rectangle "Система для приёмки техники" {
+usecase "Получить список предложений" as (GetDealsList)
+usecase "Получить список мест куда можно сдать технику" as (GetLocationsList)
+usecase "Отслеживать статус сданной техники" as (GetDeviceStatus)
+usecase "Вывести полученные от сданной техники деньги на банковскую карту" as (TransferMoneyToCard)
+usecase "Получить по виду техники правила проверки и оценки" as (GetRules)
+usecase "Ввести в систему рассчитанную оценку стоимости по товару" as (InputAssessment)
+usecase "Добавить новый вид электроники" as (AddNewElectronicType)
+usecase "Показать виды электроники, которые не принимались в течение года" as (ShowOldElectronics)
+usecase "Удалить вид электроники" as (DeleteElectronicType)
+usecase "Изменить вид электроники" as (ChangeElectronicType)
+usecase "Изменить правила проверки и оценки для вида электроники" as (ChangeRules)
+usecase "Изменить цену приёмки для вида электроники" as (ChangePrice)
+usecase "Добавить точку сдачи товара в систему" as (AddLocation)
+usecase "Удалить точку сдачи товара из системы" as (DeleteLocation)
+usecase "Добавить в систему новый экземпляр сданной техники" as (AddInstance)
+}
+Client--(GetDealsList)
+Client--(GetLocationsList)
+Client--(GetDeviceStatus)
+Client--(TransferMoneyToCard)
+
+Inspector--(GetDealsList)
+Inspector--(GetRules)
+Inspector--(InputAssessment)
+Inspector--(AddInstance)
+Inspector--(GetDeviceStatus)
+
+Administrator--(GetDealsList)
+Administrator--(GetLocationsList)
+Administrator--(AddNewElectronicType)
+Administrator--(ShowOldElectronics)
+Administrator--(ChangeElectronicType)
+Administrator--(DeleteElectronicType)
+Administrator--(AddLocation)
+Administrator--(DeleteLocation)
+
+(ChangeElectronicType) <|-- (ChangeRules)
+(ChangeElectronicType) <|-- (ChangePrice)
+@enduml
