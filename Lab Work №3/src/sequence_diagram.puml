@@ -1,0 +1,35 @@
+@startuml
+actor "Клиент" as client
+participant "Пользовательский интерфейс клиента" as userInterface
+participant "UsersModule" as usersModule
+participant "MailModule" as mailModule
+participant "Служба электронной почты" as externalMailService
+database "База данных пользователей" as usersDB
+client -> userInterface: Ввести данные(логин, пароль и почту) для регистрации 
+activate userInterface
+userInterface -> usersModule: POST users/{введённый логин} 
+activate usersModule
+usersModule -> mailModule: POST letters/{введённая почта}
+activate mailModule
+mailModule ->mailModule: Создать ссылку для подтверждения электронной почты
+mailModule ->> externalMailService: Запрос на посылку письма с ссылкой для подтверждения электронной почты
+usersModule <- mailModule: 200 OK
+deactivate mailModule
+usersModule -> usersModule: Сохранить логин, хэш пароля и электронную почту для записи при подтверждении почты 
+userInterface <- usersModule: 200 OK
+deactivate usersModule
+client <- userInterface: Сообщение о том, что нужно зайти по ссылке из письма на почте
+deactivate userInterface
+client -> mailModule: Переход по ссылке из полученного письма (GET activationPage/{сгенерированный идентификатор})
+activate mailModule
+mailModule -> usersModule: POST users/{введённый логин}/confirmation
+activate usersModule
+usersModule -> usersDB: SQL-Запрос на сохранение созданного пользователя в БД
+activate usersDB
+usersModule <- usersDB: OK
+deactivate usersDB
+usersModule -> mailModule: 200 OK
+deactivate usersModule
+client <- mailModule: 200 OK, сообщение о том, что аккаунт успешно создан
+deactivate mailModule
+@enduml
