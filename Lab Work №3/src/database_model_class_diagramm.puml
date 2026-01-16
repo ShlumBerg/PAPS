@@ -1,0 +1,42 @@
+@startuml
+entity Users
+{
+  id: BIGINT
+  cityId: BIGINT
+  roleId: BIGINT
+  {field} emailAddress: VARCHAR(64)
+  languageId: BIGINT
+  {field} passwordHash: CHAR(128)
+  {field} login: VARCHAR(32)
+}
+entity Roles
+{
+  id: BIGINT
+  {field} name: VARCHAR(32)
+}
+entity Cities
+{
+  id: BIGINT
+  {field} name: VARCHAR(64)
+  country: BIGINT
+  latitude: DOUBLE PRECISION
+  longitude: DOUBLE PRECISION
+}
+entity Countries
+{
+  id: BIGINT
+  {field} name: VARCHAR(128)
+  defaultLanguageId:  BIGINT
+}
+
+entity Languages
+{
+  id: BIGINT
+  {field} name: VARCHAR(64)
+}
+Users::cityId "n" -- "1" Cities::id
+Users::roleId "n" -- "1" Roles::id
+Users::languageId "n" -- "1" Languages::id
+Cities::country "n" -- "1" Countries::id
+Countries::defaultLanguageId "n" -- "1" Languages::id
+@enduml
